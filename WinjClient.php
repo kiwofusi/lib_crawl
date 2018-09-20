@@ -9,7 +9,7 @@ use Symfony\Component\DomCrawler\Crawler; //インスペクション対策
 class WinjClient
 {
     private $client;
-    public $crawler;
+    private $crawler;
 
     /**
      * ClisClient constructor.

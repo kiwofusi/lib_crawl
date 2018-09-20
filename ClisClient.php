@@ -5,8 +5,6 @@ use Symfony\Component\DomCrawler\Crawler; //インスペクション対策
 
 /**
  * URLが「clis」となっている図書館システムのクライアント
- *
- * 本当に「clis」全般で動くかは未検証
  */
 class ClisClient
 {
@@ -15,9 +13,9 @@ class ClisClient
 
     /**
      * ClisClient constructor.
-     * @param $login_url string ログインURL
-     * @param $login_params array ログイン情報 [name => value]
-     * @param $form_selector string ログインフォームのセレクタ
+     * @param string $login_url ログインURL
+     * @param array $login_params ログイン情報 [name => value]
+     * @param string $form_selector ログインフォームのセレクタ
      */
     public function __construct($login_url, $login_params, $form_selector = "form")
     {

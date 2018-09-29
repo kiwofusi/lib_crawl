@@ -75,19 +75,22 @@ sortArrayByKey($shibu_res, "order");
 if (count($seta_bor) >= 1) {
     echo "世田谷\n";
     foreach ($seta_bor as $item) {
-        echo "　" . fixDateFormat($item["expiration"]) . "まで : " . $item["title"] . " : 延長" . $item["extend"] . "\n";
+        $extend = ($item["extend"] === "可能") ? " : 延長可" : "";
+        echo "　" . fixDateFormat($item["expiration"]) . "まで : " . $item["title"] . $extend . "\n";
     }
 }
 if (count($chiyo_bor) >= 1) {
     echo "千代田\n";
     foreach ($chiyo_bor as $item) {
-        echo "　" . $item["expiration"] . "まで : " . $item["title"] . "\n";
+        $extend = $item["extendable"] ? " : 延長可" : "";
+        echo "　" . $item["expiration"] . "まで : " . $item["title"] . $extend . "\n";
     }
 }
 if (count($shibu_bor) >= 1) {
     echo "渋谷\n";
     foreach ($shibu_bor as $item) {
-        echo "　" . $item["expiration"] . "まで : " . $item["title"] . "\n";
+        $extend = $item["extendable"] ? " : 延長可" : "";
+        echo "　" . $item["expiration"] . "まで : " . $item["title"] . $extend . "\n";
     }
 }
 

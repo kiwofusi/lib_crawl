@@ -42,17 +42,18 @@ class WinjClient
     /**
      * 貸出状況を取得する
      * @param string $expiration_pattern 返却期限の表記。":"等の記号を含む。
-     * @return array 貸出状況(title, expiration)
+     * @return array 貸出状況(title, expiration, extendable)
      */
     public function getBorrowing($expiration_pattern = "返却期限:")
     {
         $this->clickLink("借りている資料");
-        $list = $this->crawler->filter("ol.list-book li div.lyt-image")->each(function (Crawler $li) use ($expiration_pattern) {
+        $list = $this->crawler->filter("ol.list-book li div.report")->each(function (Crawler $li) use ($expiration_pattern) {
             $item["title"] = $this->zenkaku_trim($li->filter("span.title")->first()->text());
             $info = $li->filter("div.info")->first()->text();
             if (preg_match("/{$expiration_pattern}([\d\/]+)/", $info, $matches)) {
                 $item["expiration"] = $matches[1];
             }
+            $item["extendable"] = (preg_match("/貸出延長/", $li->text(), $matches) === 1);
             return $item;
         });
         $this->back();
@@ -83,7 +84,7 @@ class WinjClient
             }
             if (preg_match("/貸出可能/", $info, $matches)) {
                 $item["status"] = "受取可";
-            } elseif (preg_match("/回送/", $info, $matches)) {
+            } elseif (preg_match("/回送|配送/", $info, $matches)) {
                 $item["status"] = "回送中";
             }elseif (preg_match("/\((\d+)位\)/", $info, $matches)) {
                 $item["order"] = $matches[1];

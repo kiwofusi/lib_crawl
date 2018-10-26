@@ -49,6 +49,7 @@ class WinjClient
         $this->clickLink("借りている資料");
         $list = $this->crawler->filter("ol.list-book li div.report")->each(function (Crawler $li) use ($expiration_pattern) {
             $item["title"] = $this->zenkaku_trim($li->filter("span.title")->first()->text());
+            $item["title"] = preg_replace("/[\s\n]+/", "　", $item["title"]);
             $info = $li->filter("div.info")->first()->text();
             if (preg_match("/{$expiration_pattern}([\d\/]+)/", $info, $matches)) {
                 $item["expiration"] = $matches[1];
